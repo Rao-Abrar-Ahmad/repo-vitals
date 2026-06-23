@@ -63,6 +63,8 @@ export interface VulnEntry {
   cvssScore: number;
   severity: "Critical" | "High" | "Medium" | "Low";
   url: string;
+  published?: string;
+  modified?: string;
 }
 
 export interface VulnResult {

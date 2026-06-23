@@ -4,6 +4,8 @@ export interface VulnInfo {
   cvssScore: number;
   severity: "Critical" | "High" | "Medium" | "Low";
   url: string;
+  published?: string;
+  modified?: string;
 }
 
 export interface PackageVulns {
@@ -43,6 +45,7 @@ export async function checkOsvVulnerabilities(
     }
 
     const data: any = await response.json();
+    //console.log("OSV API response:", data);
     if (!data.results) return [];
 
     const results: PackageVulns[] = [];
@@ -50,8 +53,9 @@ export async function checkOsvVulnerabilities(
       const result = data.results[i];
       const pkg = packages[i];
       if (result.vulns && result.vulns.length > 0) {
-        const mappedVulns: VulnInfo[] = result.vulns.map((v: any) => {
+        const mappedVulns: VulnInfo[] = await Promise.all(result.vulns.map(async (v: any) => {
           // Find CVSS score
+          //console.log(v);
           let cvssScore = 0;
           if (v.severity) {
             for (const sev of v.severity) {
@@ -64,23 +68,40 @@ export async function checkOsvVulnerabilities(
           if (cvssScore === 0 && v.database_specific?.cvss?.score) {
             cvssScore = parseFloat(v.database_specific.cvss.score);
           }
-
+          // Fetch detailed vulnerability info for published/modified fields
+          let published = undefined;
+          let modified = undefined;
+          let summary = undefined;
+          try {
+            const detailResp = await fetch(`https://api.osv.dev/v1/vulns/${v.id}`);
+            if (detailResp.ok) {
+              const detail = await detailResp.json();
+              published = detail.published;
+              modified = detail.modified;
+              summary = detail.summary || detail.details || "No summary provided";
+            }
+          } catch (e) {
+            console.error(`Failed to fetch detail for ${v.id}:`, e);
+          }
           return {
             id: v.id,
-            summary: v.summary || v.details || "No summary provided",
+            summary,
             cvssScore,
             severity: mapCvssToSeverity(cvssScore),
             url: v.references?.[0]?.url ?? `https://osv.dev/vulnerability/${v.id}`,
-          };
-        });
+            published,
+            modified,
+          } as any;
+        }));
 
         results.push({
           packageName: pkg.name,
           vulns: mappedVulns,
         });
+
       }
     }
-
+    //console.log("OSV API response:", results);
     return results;
   } catch (error) {
     console.error("OSV check failed:", error);

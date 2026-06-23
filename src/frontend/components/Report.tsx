@@ -80,7 +80,7 @@ export const Report: React.FC<ReportProps> = ({ state, onBack }) => {
           <span>Analyze Another Repo</span>
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-fit">
           {phase !== "done" && phase !== "error" && (
             <div className="flex items-center gap-2">
               <RefreshCw size={14} className="animate-spin text-accent-blue" />

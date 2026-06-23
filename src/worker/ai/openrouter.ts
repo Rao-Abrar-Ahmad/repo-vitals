@@ -25,10 +25,11 @@ Your output must be a single valid JSON object with these exact keys:
 Return ONLY the JSON object. No markdown fences, no preamble, no explanation.`;
 
 const MODELS = [
+  "google/gemma-4-31b-it:free",
+  "qwen/qwen3-coder:free",
   "google/gemini-3.5-flash",
   "deepseek/deepseek-r1",
   "meta-llama/llama-3.3-70b-instruct",
-  "qwen/qwen3-coder:free"
 ];
 
 export async function streamFromOpenRouter(

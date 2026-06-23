@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { isValidGitHubUrl } from "../lib/utils";
 import { Search, Github, ArrowRight } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 interface HeroInputProps {
   onAnalyze: (url: string) => void;
@@ -8,6 +9,7 @@ interface HeroInputProps {
 }
 
 export const HeroInput: React.FC<HeroInputProps> = ({ onAnalyze, isLoading }) => {
+  const { isDark } = useTheme();
   const [url, setUrl] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -49,7 +51,7 @@ export const HeroInput: React.FC<HeroInputProps> = ({ onAnalyze, isLoading }) =>
       {/* Form */}
       <form onSubmit={handleSubmit} className="w-full relative">
         <div className="relative flex items-center p-1 rounded-2xl bg-white/5 border border-white/10 focus-within:border-accent-blue/50 focus-within:ring-1 focus-within:ring-accent-blue/50 transition-all duration-300 shadow-2xl">
-          <div className="pl-4 text-text-muted">
+          <div className="pl-3 md:pl-4 text-text-muted">
             <Search size={20} />
           </div>
           <input
@@ -61,18 +63,22 @@ export const HeroInput: React.FC<HeroInputProps> = ({ onAnalyze, isLoading }) =>
             }}
             placeholder="https://github.com/expressjs/express"
             disabled={isLoading}
-            className="w-full py-4 pl-3 pr-20 bg-transparent text-white placeholder-text-muted/60 text-sm focus:outline-none disabled:opacity-50"
+            className="w-full py-2 md:py-4 pl-3 pr-20 bg-transparent text-text-primary placeholder-text-muted/60 text-sm focus:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={isLoading}
-            className="absolute right-1.5 top-1.5 bottom-1.5 px-5 rounded-xl bg-white text-base font-bold text-accent-blue shadow hover:bg-white/95 transition-all flex items-center gap-1.5 disabled:opacity-50"
+            className={`absolute right-1.5 top-1.5 bottom-1.5 px-3 md:px-5 rounded-xl text-sm md:text-base font-bold shadow transition-all flex items-center gap-1.5 disabled:opacity-50 ${
+              isDark
+                ? "bg-white text-accent-blue hover:bg-white/90"
+                : "bg-accent-blue text-white hover:bg-blue-700"
+            }`}
           >
             {isLoading ? (
-              <span className="w-4 h-4 border-2 border-accent-blue/30 border-t-accent-blue rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-current/30 border-t-current rounded-full animate-spin" />
             ) : (
               <>
-                <span>Analyze</span>
+                <span className="hidden md:inline">Analyze</span>
                 <ArrowRight size={14} className="stroke-[2.5]" />
               </>
             )}
@@ -91,16 +97,16 @@ export const HeroInput: React.FC<HeroInputProps> = ({ onAnalyze, isLoading }) =>
         <span>Try these examples:</span>
         <div className="flex gap-2">
           <button
-            onClick={() => { setUrl("https://github.com/expressjs/express"); setError(null); }}
+            onClick={() => { setUrl("https://github.com/isfhan/burger-api"); setError(null); }}
             className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 hover:text-white transition-colors border border-white/5"
           >
-            express
+            burger-api
           </button>
           <button
-            onClick={() => { setUrl("https://github.com/lodash/lodash"); setError(null); }}
+            onClick={() => { setUrl("https://github.com/seerr-team/seerr"); setError(null); }}
             className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 hover:text-white transition-colors border border-white/5"
           >
-            lodash
+            seerr
           </button>
         </div>
       </div>

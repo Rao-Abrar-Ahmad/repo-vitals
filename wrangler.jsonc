@@ -9,9 +9,6 @@
     "directory": "./dist",
     "binding": "ASSETS"
   },
-  "vars": {
-    "ENVIRONMENT": "production"
-  },
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,
@@ -26,5 +23,9 @@
       "persist": true,
       "head_sampling_rate": 1
     }
-  }
+  },
+  "limits": {
+    "cpu_ms": 100,
+    "subrequests": 50,
+  },
 }

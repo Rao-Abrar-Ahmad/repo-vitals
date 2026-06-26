@@ -32,7 +32,7 @@ export const HeroInput: React.FC<HeroInputProps> = ({ onAnalyze, isLoading }) =>
   };
 
   return (
-    <div className="flex flex-col items-center justify-center max-w-4xl mx-auto text-center px-4 py-16">
+    <div className="flex flex-col items-center justify-center max-w-4xl mx-auto text-center px-4 py-12">
       {/* Badge */}
       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-text-muted mb-6">
         <Github size={12} />
@@ -44,13 +44,13 @@ export const HeroInput: React.FC<HeroInputProps> = ({ onAnalyze, isLoading }) =>
         Check the <span className="bg-gradient-to-r from-accent-blue via-accent-purple to-pink-500 bg-clip-text text-transparent">Vitals</span> of Your Repo
       </h1>
 
-      <p className="text-text-muted text-base sm:text-lg mb-8 max-w-lg leading-relaxed">
+      <p className="text-text-muted text-base sm:text-lg mb-8 max-w-xl leading-relaxed">
         Paste any public JavaScript or Node.js GitHub repository URL to receive an instant, AI-guided quality and vulnerability checkup.
       </p>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="w-full relative">
-        <div className="relative flex items-center p-1 rounded-2xl bg-white/5 border border-white/10 focus-within:border-accent-blue/50 focus-within:ring-1 focus-within:ring-accent-blue/50 transition-all duration-300 shadow-2xl">
+        <div className="relative flex items-center p-1 rounded-2xl bg-white/5 border border-white/10 focus-within:border-accent-blue/50 focus-within:ring-1 focus-within:ring-accent-blue/50 transition-all duration-300">
           <div className="pl-3 md:pl-4 text-text-muted">
             <Search size={20} />
           </div>
@@ -63,16 +63,15 @@ export const HeroInput: React.FC<HeroInputProps> = ({ onAnalyze, isLoading }) =>
             }}
             placeholder="https://github.com/expressjs/express"
             disabled={isLoading}
-            className="w-full py-2 md:py-4 pl-3 pr-20 bg-transparent text-text-primary placeholder-text-muted/60 text-sm focus:outline-none disabled:opacity-50"
+            className="w-full py-2 md:py-3 pl-3 pr-20 bg-transparent text-text-primary placeholder-text-muted/60 text-sm focus:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={isLoading}
-            className={`absolute right-1.5 top-1.5 bottom-1.5 px-3 md:px-5 rounded-xl text-sm md:text-base font-bold shadow transition-all flex items-center gap-1.5 disabled:opacity-50 ${
-              isDark
-                ? "bg-white text-accent-blue hover:bg-white/90"
-                : "bg-accent-blue text-white hover:bg-blue-700"
-            }`}
+            className={`absolute right-1.5 top-1.5 bottom-1.5 px-3 md:px-5 rounded-xl text-sm md:text-base font-bold shadow transition-all flex items-center gap-1.5 disabled:opacity-50 ${isDark
+              ? "bg-white text-accent-blue hover:bg-white/90"
+              : "bg-accent-blue text-white hover:bg-blue-700"
+              }`}
           >
             {isLoading ? (
               <span className="w-4 h-4 border-2 border-current/30 border-t-current rounded-full animate-spin" />
